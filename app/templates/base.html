@@ -30,16 +30,27 @@
                       Товары для своего питомца
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Для собак</a></li>
-                      <li><a class="dropdown-item" href="#">Для кошек</a></li>
-                      <li><a class="dropdown-item" href="#">Для попугаев</a></li>
+                      {% for product_type in producttypes %}
+                      <li><a class="dropdown-item" href="/products/?type={{ product_type.type }}">
+                        {{ product_type.type }}
+                      </a></li>
+                      {% endfor %}
                     </ul>
                   </li>
+                  <li class="nav-item">
+                    <form class="d-flex" role="search">
+                      <input class="form-control me-2" type="search" placeholder="Введите что ищете" aria-label="Search">
+                      <button class="btn btn-outline-success" type="submit">Поиск</button>
+                    </form>  
+                  </li>
+                  <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'profile' %}">Личный кабинет</a>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                    {% endif %}
+                  </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Введите что ищете" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Поиск</button>
-                </form>
               </div>
             </div>
           </nav>

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 
 class ProductType(models.Model):
@@ -8,6 +8,9 @@ class ProductType(models.Model):
         help_text="Обязательное поле",
         null=False)
 
+    def get_absolute_url(self):
+        return reverse("products-page", kwargs={"type": self.type})
+    
     def __str__(self) -> str:
         return self.type
     
@@ -46,6 +49,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+
 
 class ProductAmounts(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
