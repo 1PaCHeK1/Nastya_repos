@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+
+
+<img src="{% static 'images/default-product-image.png' %}" width="340" alt="..." height="400" >
+    <div class="card-body">
+      <h5 class="card-title">{{ product.name }}</h5>
+      <p class="card-text">{{  product.description }}</p>
+      <p>Тип: {{ product.type.type }}</p>
+      <p>Количество: {{ amounts }}</p>
+      <button>Купить за {{ product.price }}р</button>
+      
+    </div>
+
+
+{% endblock main %}

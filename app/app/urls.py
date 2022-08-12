@@ -29,7 +29,7 @@ urlpatterns = [
     
     # PETSTORE
     path('products', petstore_view.products, name='products-page'),
-    # path('product/<int:id>', petstore_view.product, name='product-page'),
+    path('product/<int:id>', petstore_view.product, name='product-page'),
     
 
 ]
