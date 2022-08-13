@@ -4,14 +4,14 @@
 {% block main %}
 
 {% for product in products %}
-<div class="card" style="width: 18rem; float: left; margin-left: 30px;">
+<a href='/product/{{ product.id }}'><div class="card" style="width: 18rem; float: left; margin-left: 30px;">
     <img src="{% static 'images/default-product-image.png' %}" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title">{{ product.name }}</h5>
       <p class="card-text">{{  product.description }}</p>
       <button style="border-color:aliceblue">Купить за {{ product.price }}р</button>
     </div>
-</div>
+</div></a>
 {% endfor %}
 
 {% endblock main %}

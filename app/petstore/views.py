@@ -28,13 +28,13 @@ def products(request):
 
 def product(request, id):
     data = Product.objects.get(id=id)
-    amounts = [amount[2] for amount in ProductAmounts.objects.filter(product=id).values_list()]
+    amount = ProductAmounts.objects.get(product__id=id)
     
     context = header_context(request)
     context.update({
-        'title': 'Список продуктов',
+        'title': 'Информация о продукте',
         'product': data,
-        'amounts': amounts,
+        'amount': amount,
     })
     
     return render(request, 'petstore/product.html', context)

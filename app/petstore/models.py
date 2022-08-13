@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from users.models import User
 # Create your models here.
 
 class ProductType(models.Model):
@@ -52,7 +53,7 @@ class Product(models.Model):
 
 
 class ProductAmounts(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, primary_key = True)
     amount = models.IntegerField("Количество", 
         blank=False,
         null=False,
@@ -64,3 +65,23 @@ class ProductAmounts(models.Model):
     class Meta:
         verbose_name = 'Количество продукта'
         verbose_name_plural = 'Количества продуктов'
+
+
+class Order(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
+    products = models.ManyToManyField(Product)
+    
+
+    def count_total_price(self):
+        return 5
+    total_price = property(count_total_price)
+    #  это не работает
+
+
+    def __str__(self):
+        return "Корзина " + str(self.user)
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+    
