@@ -2,7 +2,8 @@ from django.contrib import admin
 from .models import (
     Product,
     ProductAmounts,
-    ProductType
+    ProductType,
+    Order
 )
 # Register your models here.
 @admin.register(ProductType)
@@ -15,4 +16,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(ProductAmounts)
 class ProductAmountsAdmin(admin.ModelAdmin):
+    display_list = "__all__"
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
     display_list = "__all__"
