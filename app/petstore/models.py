@@ -70,12 +70,15 @@ class ProductAmounts(models.Model):
 class Order(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
     products = models.ManyToManyField(Product)
-    
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+
+    ORDER_STATUS = ((0, 'Оплачено'), (1, 'Ожидание'), (2, 'Отмена'))
+    status = models.PositiveSmallIntegerField(choices=ORDER_STATUS)
 
     def count_total_price(self):
         return 5
     total_price = property(count_total_price)
-    #  это не работает
+
 
 
     def __str__(self):
