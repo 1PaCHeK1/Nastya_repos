@@ -5,14 +5,13 @@
 
 
 <img src="{% static 'images/default-product-image.png' %}" width="340" alt="..." height="400" >
-    <div class="card-body">
-      <h5 class="card-title">{{ product.name }}</h5>
-      <p class="card-text">{{  product.description }}</p>
-      <p>Тип: {{ product.type.type }}</p>
-      <p>Количество: {{ amount.amount }}</p>
-      <button>В корзину за {{ product.price }}р</button>
-      
-    </div>
+<div class="card-body">
+  <h5 class="card-title">{{ product.name }}</h5>
+  <p class="card-text">{{  product.description }}</p>
+  <p>Тип: {{ product.type.type }}</p>
+  <p>Количество: {{ amount.amount }}</p>
+  <a href="{% url 'append-order' product.id %}" type="button" class="btn btn-danger">В корзину за {{ product.price }}р</a>
+</div>
 
 
 {% endblock main %}

@@ -26,12 +26,14 @@ urlpatterns = [
     
     # USERS
     path('hello/', user_view.hello_world, name='hello-page'),
-    
+    path('registration/', user_view.RegistrationView.as_view(), name='registration'),
+
     # PETSTORE
     path('products/', petstore_view.products, name='products-page'),
     path('product/<int:id>', petstore_view.product, name='product-page'),
-    
-    
+    path('order/', petstore_view.OrderView.as_view(), name='order'),
+    path('appendToOrder/<int:product_id>', petstore_view.AppendToOrderView.as_view(), name='append-order'),
+
     ### AUTH
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_view.profile, name='profile'),

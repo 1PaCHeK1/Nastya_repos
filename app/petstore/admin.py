@@ -5,6 +5,7 @@ from .models import (
     ProductType,
     Order
 )
+
 # Register your models here.
 @admin.register(ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
@@ -12,7 +13,7 @@ class ProductTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    display_list = "__all__"
+    display_list = ('id', 'name')
 
 @admin.register(ProductAmounts)
 class ProductAmountsAdmin(admin.ModelAdmin):

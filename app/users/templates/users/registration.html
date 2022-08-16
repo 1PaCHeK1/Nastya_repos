@@ -1,19 +1,18 @@
 {% extends 'base.html' %}
 
+
 {% block main %}
 <div class="auth-form">
-    
-    <form action="{% url 'login' %}" method="post">
+    <form action="{% url 'registration' %}" method="post">
         {% csrf_token %}
         {% for field in form %}
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">{{field.label}}</label>
             <div class="form-control">{{ field }}</div> 
-            {% comment %} <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> {% endcomment %}
+            <div class="form-text">{{ field.errors }}</div>
         </div>
         {% endfor %}
         <button type="submit" class="btn btn-primary">Войти</button>
     </form>
-    
 </div>
 {% endblock main %}

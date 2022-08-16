@@ -1,10 +1,35 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.views import View
 from django.contrib.auth.decorators import login_required
 
 from app.utils import header_context
+from .forms import RegistrationForm
+
+class RegistrationView(View):
+    def get(self, request, *args, **kwargs):
+        
+        form = RegistrationForm()
+        context = header_context(request)
+        context.update({
+            'form': form
+        })
+        return render(request, 'users/registration.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        form = RegistrationForm(request.POST)
+        context = header_context(request)
+        
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/accounts/login/')
+        else:
+            context.update({
+                'form': form
+            })
+            return render(request, 'users/registration.html', context)
 
 
-# Create your views here.
 def hello_world(request):
     context = header_context(request)
     context = {

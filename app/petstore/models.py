@@ -19,6 +19,7 @@ class ProductType(models.Model):
         verbose_name = 'Тип продукта'
         verbose_name_plural = 'Типы продуктов'
 
+
 class Product(models.Model):
     name = models.CharField("Название",
         unique=True,
@@ -73,13 +74,11 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
     ORDER_STATUS = ((0, 'Оплачено'), (1, 'Ожидание'), (2, 'Отмена'))
-    status = models.PositiveSmallIntegerField(choices=ORDER_STATUS)
+    status = models.PositiveSmallIntegerField(choices=ORDER_STATUS, default=1)
 
-    def count_total_price(self):
-        return 5
-    total_price = property(count_total_price)
-
-
+    @property
+    def total_price(self):
+        return sum([product.price for product in self.products.all()])
 
     def __str__(self):
         return "Корзина " + str(self.user)
