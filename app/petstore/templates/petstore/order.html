@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+
+{% for product in order.products.all %}
+
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4"><a href='/product/{{ product.id }}'>
+      <img src="{% static 'images/default-product-image.png' %}" class="card-img-top" alt="..."></a>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+        <p class="card-text">Цена: {{ product.price }}р</p>
+        <a href="{% url 'remove-order' product.id %}" type="button" class="btn btn-outline-danger">Удалить из корзины</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} 
+<h5 class="card-title">{{ product.name }}</h5>
+<p class="card-text">{{ product.description }}, Цена: {{ product.price }}р</p>
+<a href="{% url 'remove-order' product.id %}">Удалить из корзины</a> {% endcomment %}
+{% endfor %}
+<p>Сумма: {{order.total_price}}</p>
+
+{% endblock main %}

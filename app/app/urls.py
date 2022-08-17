@@ -25,18 +25,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # USERS
-    path('hello/', user_view.hello_world, name='hello-page'),
+    path('hello/', user_view.HelloWorldView.as_view(), name='hello-page'),
     path('registration/', user_view.RegistrationView.as_view(), name='registration'),
 
     # PETSTORE
-    path('products/', petstore_view.products, name='products-page'),
-    path('product/<int:id>', petstore_view.product, name='product-page'),
+    path('products/', petstore_view.ProductsView.as_view(), name='products-page'),
+    path('product/<int:id>', petstore_view.ProductView.as_view(), name='product-page'),
     path('order/', petstore_view.OrderView.as_view(), name='order'),
     path('appendToOrder/<int:product_id>', petstore_view.AppendToOrderView.as_view(), name='append-order'),
+    path('removeFromOrder/<int:product_id>', petstore_view.RemoveFromOrderView.as_view(), name='remove-order'),
 
     ### AUTH
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/profile/', user_view.profile, name='profile'),
+    path('accounts/profile/', user_view.ProfileView.as_view(), name='profile'),
     
 ]
 

@@ -9,7 +9,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ product.name }}</h5>
       <p class="card-text">{{  product.description }}</p>
-      <button style="border-color:aliceblue">Купить за {{ product.price }}р</button>
+      <a href="{% url 'append-order' product.id %}" type="button" class="btn btn-outline-danger">В корзину за {{ product.price }}р</a>
     </div>
 </div></a>
 {% endfor %}
