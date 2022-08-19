@@ -1,0 +1,16 @@
+{% load static %}
+<div class="card" style="width: 18rem; float: left; margin-left: 30px;">
+    <a href='/product/{{ product.id }}'>  
+        <img src="{% static 'images/default-product-image.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">{{  product.description }}</p>
+        </div>
+    </a>
+    {% if title == "Order" %}    
+        <button id="product_in_order_{{ product.id }}" onclick="append_in_order({{product.id}});" class="btn btn-outline-danger">+1</button>
+        <button id="product_in_order_{{ product.id }}" onclick="pop_in_order({{product.id}});" class="btn btn-outline-danger">-1</button>
+    {% else %}
+        <button id="product_{{ product.id }}" onclick="append_in_order({{product.id}});" class="btn btn-outline-danger">{{ product.price }}р</button>
+    {% endif %}
+</div>

@@ -10,6 +10,7 @@ class User(AbstractUser):
         blank=True
     )
 
+
 class Tag(models.Model):
     name = models.CharField('Название',
         unique=True,
@@ -25,6 +26,7 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

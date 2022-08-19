@@ -46,7 +46,7 @@ class ProductView(View):
 
 class OrderView(View):
     def get(self, request, *args, **kwargs):
-        context = header_context(request)
+        context = header_context(request, 'Order')
         
         try: user = request['user']
         except: user = request.user
@@ -59,8 +59,7 @@ class OrderView(View):
         return render(request, 'petstore/order.html', context)
         
     def post(self, request, *args, **kwargs):
-        request
-        context = header_context(request)
+        context = header_context(request, 'Order')
         try: user = request['user']
         except: user = request.user
         
