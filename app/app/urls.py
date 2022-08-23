@@ -20,9 +20,16 @@ from django.conf.urls.static import static
 from django.conf import settings
 import users.views as user_view 
 import petstore.views as petstore_view
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+
+router.register('order-json', petstore_view.OrderJSONView, basename='order-json')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
+    
     
     # USERS
     path('hello/', user_view.HelloWorldView.as_view(), name='hello-page'),
@@ -32,13 +39,13 @@ urlpatterns = [
     path('products/', petstore_view.ProductsView.as_view(), name='products-page'),
     path('product/<int:id>', petstore_view.ProductView.as_view(), name='product-page'),
     path('order/', petstore_view.OrderView.as_view(), name='order'),
-    path('appendToOrder/<int:product_id>', petstore_view.AppendToOrderView.as_view(), name='append-order'),
-    path('removeFromOrder/<int:product_id>', petstore_view.RemoveFromOrderView.as_view(), name='remove-order'),
-
+    
     ### AUTH
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_view.ProfileView.as_view(), name='profile'),
     
 ]
+
+urlpatterns += router.urls
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,16 +2,10 @@
 {% load static %}
 
 {% block main %}
+<h1>Ваши корзины</h1>
+<div class="orders">
+    
 
-{% for product in order.products.all %}
-{% include 'petstore/product_card.html' %}
-
-
-{% comment %} 
-<h5 class="card-title">{{ product.name }}</h5>
-<p class="card-text">{{ product.description }}, Цена: {{ product.price }}р</p>
-<a href="{% url 'remove-order' product.id %}">Удалить из корзины</a> {% endcomment %}
-{% endfor %}
-<p>Сумма: {{order.total_price}}</p>
+</div>
 
 {% endblock main %}

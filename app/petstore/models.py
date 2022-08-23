@@ -69,7 +69,7 @@ class ProductAmounts(models.Model):
 
 
 class Order(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
@@ -86,4 +86,4 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
-    
+        ordering = ('-created_at', )

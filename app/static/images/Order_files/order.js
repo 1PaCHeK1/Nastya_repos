@@ -22,12 +22,9 @@ function init_order() {
     }
 }
 
-async function GetRequest(url) {
-    response = await fetch(url)
-    return await response.json()
-}
 
-function append_in_order(product_id) {    
+function append_in_order(product_id) {
+    
     let order = downolad_order();
     
     let containt = false;
@@ -67,24 +64,12 @@ function pop_in_order(product_id) {
     console.log(order)
 }
 
-async function render_order() {
-    let orders = await GetRequest('/order-json/');
-    orders_html = document.getElementsByClassName('orders')[0]
-    console.log(orders)
-    orders.forEach(order => {
-        order.products.forEach(product => {
-            html = template_product(product)
-            orders_html.innerHTML += html
-            append_in_order(product.id)
-        })
-    });
-}
 
 function template_product(product) {
     return `
     <div class="card" style="width: 18rem; float: left; margin-left: 30px;">
         <a href='/product/${product.id}'>  
-            <img src="/static/images/default-product-image.png" class="card-img-top" alt="...">
+            <img src="{% static 'images/default-product-image.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>

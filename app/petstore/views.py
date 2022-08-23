@@ -1,11 +1,23 @@
+from urllib import request
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponseRedirect
-
+from django.http import HttpResponseRedirect, JsonResponse
+ 
 from app.utils import header_context
-from .models import Product, ProductAmounts, Order
 from django.contrib.auth.decorators import login_required
 
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.mixins import (
+    RetrieveModelMixin,
+    ListModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin    
+)
+
+from .serializers import OrderSerializer, OrderCreateSerializer
+from .models import Product, ProductAmounts, Order
 
 class ProductsView(View):
     def get(self, request, *args, **kwargs):
@@ -47,57 +59,29 @@ class ProductView(View):
 class OrderView(View):
     def get(self, request, *args, **kwargs):
         context = header_context(request, 'Order')
-        
-        try: user = request['user']
-        except: user = request.user
-        
-        order = Order.objects.get_or_create(user_id=user.id)[0]
-        print(order.products)
-        context.update({
-            'order': order
-        })
         return render(request, 'petstore/order.html', context)
-        
+
     def post(self, request, *args, **kwargs):
         context = header_context(request, 'Order')
-        try: user = request['user']
-        except: user = request.user
-        
-        order:Order = Order.objects.get_or_create(user_pk=user.pk)
-        context.update({
-            'order': order
-        })
         return render(request, 'petstore/order.html', context)
 
-class AppendToOrderView(View):
-    def get(self, request, product_id):
-        request
-        context = header_context(request)
-        try: user = request['user']
-        except: user = request.user
-        
-        order = Order.objects.get(user_id=user.id)
-        context.update({
-            'order': order
-        })
-        product = Product.objects.get(id=product_id)
-        order.products.add(product)
 
-        return HttpResponseRedirect('/product/{}'.format(product_id))
+class OrderJSONView(RetrieveModelMixin,
+                    ListModelMixin,
+                    CreateModelMixin,
+                    UpdateModelMixin,
+                    DestroyModelMixin,
+                    GenericViewSet):
 
-class RemoveFromOrderView(View):
-    def get(self, request, product_id):
-        request
-        context = header_context(request)
-        try: user = request['user']
-        except: user = request.user
-        
-        order = Order.objects.get(user_id=user.id)
-        context.update({
-            'order': order
-        })
-        product = Product.objects.get(id=product_id)
-        order.products.remove(product)
-        return HttpResponseRedirect('/order/')
-        # return render(request, 'petstore/order.html', context)
-        
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return OrderCreateSerializer
+        else:
+            return OrderSerializer
