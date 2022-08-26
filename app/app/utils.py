@@ -8,5 +8,4 @@ def header_context(request, title='') -> dict:
         'title': title,
         'producttypes': ProductType.objects.all()
     }
-    
     return context 
