@@ -2,69 +2,82 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ title }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <title>{{ title }}</title>
 </head>
-<body>
-  <header>
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a class="nav-link" href="/products/">Зоомагазин</a></li>
-        <li><a class="nav-link" href="#">Статьи</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Товары для своего питомца
-          </a>
-          <ul class="dropdown-menu">
-            {% for product_type in producttypes %}
-            <li><a class="dropdown-item" href="/products/?type={{ product_type.type }}">
-              {{ product_type.type }}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </li>
-      </ul>
-      
-      <div style="width: 450px; height: 50px; margin: 0 auto; margin-top: 10px">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Введите что ищете" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Поиск</button>
-        </form>
-      </div>
 
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        {% if user.is_authenticated %}
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Личный кабинет</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'order' %}">Корзина</a></li>
-        </ul>
-        {% else %}
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li lass="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
-        </ul>
-        {% endif %}
+<body>
+  <div class="container">
+    <header>
+      <div class="row">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a class="nav-link" href="/products/">Зоомагазин</a></li>
+            <li><a class="nav-link" href="#">Статьи</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Товары для своего питомца
+              </a>
+              <ul class="dropdown-menu">
+                {% for product_type in producttypes %}
+                <li><a class="dropdown-item" href="/products/?type={{ product_type.type }}">
+                    {{ product_type.type }}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+  
+          <div style="width: 450px; height: 50px; margin: 0 auto; margin-top: 10px">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Введите что ищете" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Поиск</button>
+            </form>
+          </div>
+  
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            {% if user.is_authenticated %}
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Личный кабинет</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'order' %}">Корзина</a></li>
+            </ul>
+            {% else %}
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li lass="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
     <main>
+      <div class="row">
         {% block main %}
-            404
+        404
         {% endblock main %}
+      </div>
     </main>
     <footer>
+      <div class="row">
         
+      </div>
     </footer>
-    
+
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"></script>
     <script src="{% static 'js/order.js' %}"></script>
+  </div>
 </body>
 </html>

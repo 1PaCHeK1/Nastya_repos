@@ -4,10 +4,8 @@
 {% block main %}
 <h1>Ваши корзины</h1>
 <div class="orders">
-{% for order in show_order %}
-    {{order}}
-{% endfor %} 
-
+    
+<button type="button" class="btn btn-primary" onclick="sendOrder();">Оформить заказ</button>
 </div>
 
 {% endblock main %}

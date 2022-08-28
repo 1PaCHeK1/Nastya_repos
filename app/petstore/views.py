@@ -16,8 +16,15 @@ from rest_framework.mixins import (
     DestroyModelMixin    
 )
 
-from .serializers import OrderSerializer, OrderCreateSerializer
-from .models import Product, ProductAmounts, Order
+from .serializers import (
+    OrderSerializer, 
+    OrderCreateSerializer
+)
+from .models import (
+    Product, 
+    ProductAmounts, 
+    Order
+)
 
 class ProductsView(View):
     def get(self, request, *args, **kwargs):
