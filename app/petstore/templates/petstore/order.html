@@ -4,7 +4,9 @@
 {% block main %}
 <h1>Ваши корзины</h1>
 <div class="orders">
-    
+{% for order in show_order %}
+    {{order}}
+{% endfor %} 
 
 </div>
 
