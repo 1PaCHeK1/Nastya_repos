@@ -45,9 +45,12 @@ class ProfileView(View):
     @method_decorator(login_required())
     def get(self, request, *args, **kwargs):
         context = header_context(request)
+        try: user = request.user
+        except: user = request['user']
         context.update({
             'title': 'Hello page',
-            'name': 'sdkjfbsdg'
+            'name': 'sdkjfbsdg',
+            'form': RegistrationForm
         })
         
         return render(request, 'users/profile.html', context)

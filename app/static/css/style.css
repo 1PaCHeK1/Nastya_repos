@@ -3,3 +3,32 @@
     justify-content: center;
     width: min-content;
 }
+.card {
+    float: left;
+}
+.minus {
+    cursor: pointer;
+    width:15px;
+    float:left;
+    text-align:center;
+    
+}
+.plus {
+    cursor: pointer;
+    width:15px;
+    float:right;
+    text-align:center;
+}
+
+.inp_price {
+    width:40px;
+    text-align:center;
+    border:none;
+    border-left:1px solid gray;
+    border-right:1px solid gray;
+}
+
+.count_box {
+    width:75px;
+    border:1px solid gray;  
+}

@@ -28,7 +28,7 @@ function change_button(product_id) {
     if(btn!==null)
     {
         btn.onclick = () => window.open('/order/');
-        btn.textContent = "В корзину";
+        btn.textContent = "Перейти в корзину";
     }
 }
 
@@ -48,10 +48,11 @@ function append_in_order(product_id) {
         if(product_id == order[index].product_id){
             order[index].amount += 1
             containt = true;
-            element = document.getElementById('product_add_' + product_id)
-            element.textContent = order[index].amount + '+1'
-            element = document.getElementById('product_pop_' + product_id)
-            element.textContent = order[index].amount + '-1'
+            element = document.getElementById('product_'+ product_id + '_amount')
+            if (element != null) {
+                element.value = order[index].amount 
+            }
+            
             break
         }
     }
@@ -77,10 +78,9 @@ function pop_in_order(product_id) {
             }
             else {
                 order[index].amount -= 1
-                element = document.getElementById('product_add_' + product_id)
-                element.textContent = order[index].amount + '+1'
-                element = document.getElementById('product_pop_' + product_id)
-                element.textContent = order[index].amount + '-1'
+                element = document.getElementById('product_'+ product_id + '_amount')
+                element.value = order[index].amount
+                
             }
             break
         }
@@ -120,15 +120,20 @@ function template_product(product) {
                     </div>
                 </a>
             </div>
-            <div class="row p-3">
-                <button id="product_add_${product.id}" onclick="append_in_order(${product.id});" class="btn btn-outline-danger">${product_amount}+1</button>
-                <button id="product_pop_${product.id}" onclick="pop_in_order(${product.id});" class="btn btn-outline-danger">${product_amount}-1</button>
+
+            <div class='count_box m-3'>
+                <div id="product_pop_${product.id}" onclick="pop_in_order(${product.id});" class="minus">-</div>
+                <input id="product_${product.id}_amount" class='inp_price' type="text" value="${product_amount}"/>
+                <div id="product_add_${product.id}" onclick="append_in_order(${product.id});" class="plus">+</div>
             </div>
         </div>
     </div>
     `
 }
-
+{/* <div class="row p-3">
+    <button id="product_add_${product.id}" onclick="append_in_order(${product.id});" class="btn btn-outline-danger">${product_amount}+1</button>
+    <button id="product_pop_${product.id}" onclick="pop_in_order(${product.id});" class="btn btn-outline-danger">${product_amount}-1</button>
+</div> */}
 
 function sendOrder() {
     let order = downolad_order().map(e => e.product_id);

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h1>HELLO WORLD</h1>
-    <h2>{{ name }}</h2>
+    <h1>Профиль</h1>
     <a href="{% url 'logout'%}?next={{request.path}}">Выйти</a>
 {% endblock main %}
