@@ -10,7 +10,7 @@
   <p class="card-text">{{  product.description }}</p>
   <p>Тип: {{ product.type.type }}</p>
   <p>Количество: {{ amount.amount }}</p>
-  <a href="{% url 'append-order' product.id %}" type="button" class="btn btn-outline-danger">В корзину за {{ product.price }}р</a>
+  <button onclick="append_in_order({{product.id}});" type="button" class="btn btn-outline-danger">В корзину за {{ product.price }}р</button>
 </div>
 
 

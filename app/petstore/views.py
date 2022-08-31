@@ -18,7 +18,8 @@ from rest_framework.mixins import (
 
 from .serializers import (
     OrderSerializer, 
-    OrderCreateSerializer
+    OrderCreateSerializer,
+    ProductSerializer
 )
 from .models import (
     Product, 
@@ -61,6 +62,23 @@ class ProductView(View):
         })
         
         return render(request, 'petstore/product.html', context)
+
+class ProductsJSONView(RetrieveModelMixin,
+                    ListModelMixin,
+                    CreateModelMixin,
+                    UpdateModelMixin,
+                    DestroyModelMixin,
+                    GenericViewSet):
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        return ProductSerializer
 
 
 class OrderView(View):

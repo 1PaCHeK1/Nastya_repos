@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+# from django.contrib.auth.urls
 
 from django.conf import settings
 import users.views as user_view 
@@ -25,6 +26,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 router.register('order-json', petstore_view.OrderJSONView, basename='order-json')
+router.register('products-json', petstore_view.ProductsJSONView, basename='products-json')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
