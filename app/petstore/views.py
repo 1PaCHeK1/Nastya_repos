@@ -64,11 +64,11 @@ class ProductView(View):
         return render(request, 'petstore/product.html', context)
 
 class ProductsJSONView(RetrieveModelMixin,
-                    ListModelMixin,
-                    CreateModelMixin,
-                    UpdateModelMixin,
-                    DestroyModelMixin,
-                    GenericViewSet):
+                       ListModelMixin,
+                       CreateModelMixin,
+                       UpdateModelMixin,
+                       DestroyModelMixin,
+                       GenericViewSet):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -76,9 +76,6 @@ class ProductsJSONView(RetrieveModelMixin,
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-        return ProductSerializer
 
 
 class OrderView(View):
@@ -100,7 +97,7 @@ class OrderJSONView(RetrieveModelMixin,
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
