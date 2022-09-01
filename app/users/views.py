@@ -50,7 +50,8 @@ class ProfileView(View):
         context.update({
             'title': 'Hello page',
             'name': 'sdkjfbsdg',
-            'form': RegistrationForm
+            'form': RegistrationForm,
+            'user': user
         })
         
         return render(request, 'users/profile.html', context)

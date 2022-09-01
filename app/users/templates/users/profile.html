@@ -2,5 +2,18 @@
 
 {% block main %}
     <h1>Профиль</h1>
+    {% for field in form %}
+    <div class="mb-3">
+        <label>{{ field.name }}:</label>
+        {% if field.name == "password" %}
+        <input class="{{ field.name }}" value="******">
+        {% else %}
+        <input class="{{ field.name }}" value="5">
+        {% endif %}
+        <button onclick="change_info('{{ field.name }}', '{{ user.id }}')">изменить {{ field.label }}</button>
+        <div class="form-text">{{ field.errors }}</div>
+    </div>
+
+    {% endfor %}
     <a href="{% url 'logout'%}?next={{request.path}}">Выйти</a>
 {% endblock main %}
