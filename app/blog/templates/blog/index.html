@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Статьи</h2>
+
+    {% for article in object_list %}
+    <h4>{{ article.title }}</h4>
+    <h6>{{ article.author.username }}</h6>
+    <a href="{% url 'article' slug=article.slug %}">Читать</a>
+    {% endfor %}
+    
+{% endblock main %}
