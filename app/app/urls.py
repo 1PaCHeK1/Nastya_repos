@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 # from django.contrib.auth.urls
-
+from rest_framework import routers
 from django.conf import settings
+
+
 import users.views as user_view 
 import petstore.views as petstore_view
-from rest_framework import routers
+import blog.views as blog_view
 
 router = routers.DefaultRouter()
 
@@ -31,6 +33,7 @@ router.register('products-json', petstore_view.ProductsJSONView, basename='produ
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('summernote/', include('django_summernote.urls')),
     
     
     # USERS
@@ -42,9 +45,13 @@ urlpatterns = [
     path('product/<int:id>', petstore_view.ProductView.as_view(), name='product-page'),
     path('order/', petstore_view.OrderView.as_view(), name='order'),
     
-    ### AUTH
+    # AUTH
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_view.ProfileView.as_view(), name='profile'),
+    
+    # BLOG    
+    path('blog/', blog_view.BlogListView.as_view(), name='blog-page'),
+    path('article/<slug:slug>', blog_view.ArticleDetailView.as_view(), name='article'),
     
 ]
 
