@@ -5,4 +5,27 @@
 
     {{ object.text|safe }}
     {{ object.created_at }}
+    <h2>Комментарии</h2>
+
+    <div class="form-outline mb-4">
+    <form>
+        <input type="text" id="addComment" placeholder="Добавить комментарий" />
+        <button onclick="CreateComment({{ object.id }})">Добавить</button>
+    </form>
+    </div>
+
+    {% for comment in comments %}
+    <div class="card col-9 ml-3">
+        <div class="card-body">
+          {{ comment.text|safe }}
+        <div class="d-flex justify-content-between">
+            {{ comment.creator }}
+            <div class="d-flex flex-row align-items-center">
+              создано {{ comment.created_at|safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+        
+    {% endfor %}
 {% endblock main %}

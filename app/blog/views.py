@@ -1,4 +1,5 @@
 from urllib import request
+from .models import Comment
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -15,6 +16,7 @@ from rest_framework.mixins import (
     UpdateModelMixin,
     DestroyModelMixin    
 )
+from .serializers import CommentSerializer, CommentCreateSerializer
 
 from app.utils import header_context
 from blog.models import Article
@@ -37,4 +39,25 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(header_context(self.request))
+        context.update({'comments': Comment.objects.filter(article=context['article'])})
         return context
+
+class CommentsJSONView(RetrieveModelMixin,
+                    ListModelMixin,
+                    CreateModelMixin,
+                    UpdateModelMixin,
+                    DestroyModelMixin,
+                    GenericViewSet):
+
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CommentCreateSerializer
+        else:
+            return CommentSerializer
