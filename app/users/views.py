@@ -6,6 +6,19 @@ from django.utils.decorators import method_decorator
 
 from app.utils import header_context
 from .forms import RegistrationForm
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.mixins import (
+    RetrieveModelMixin,
+    ListModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin    
+)
+from .models import (
+    User
+)
+from .serializers import UserSerializer
 
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):
@@ -40,6 +53,16 @@ class HelloWorldView(View):
 
         return render(request, 'users/index.html', context)
 
+class UsersJSONView(RetrieveModelMixin,
+                    ListModelMixin,
+                    GenericViewSet):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class ProfileView(View):
     @method_decorator(login_required())

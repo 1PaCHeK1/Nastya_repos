@@ -8,9 +8,9 @@
         {% if field.name == "password" %}
         <input class="{{ field.name }}" value="******">
         {% else %}
-        <input class="{{ field.name }}" value="5">
+        <input class="{{ field.name }}" id="new_value" value="user.{{field.name}}">
         {% endif %}
-        <button onclick="change_info('{{ field.name }}', '{{ user.id }}')">изменить {{ field.label }}</button>
+        <button onclick="change_info({{ field.name }}, {{ user.id }})">изменить {{ field.label }}</button>
         <div class="form-text">{{ field.errors }}</div>
     </div>
 
