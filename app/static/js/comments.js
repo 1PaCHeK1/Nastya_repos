@@ -10,7 +10,7 @@ async function PostRequest(url, body) {
 }
 
 function CreateComment(article_id) {
-    comment_html = document.getElementsByID('addComment')[0]
+    comment_html = document.getElementById('addComment')
     text_comment = comment_html.value
     PostRequest('/comments-json/', {article: article_id, text: text_comment})
 }
