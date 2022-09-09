@@ -12,6 +12,7 @@ services:
       - ./.env.dev
     depends_on:
       - db
+      - redis
   db:
     image: postgres:13.0-alpine
     volumes:
@@ -20,6 +21,10 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=q1726354
       - POSTGRES_DB=app
-
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6379"
 volumes:
   postgres_data:

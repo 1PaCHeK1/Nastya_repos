@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'petstore',
     'users',
     'blog',
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     
     'django_summernote',
+    'channels',
     
 ]
 
@@ -146,3 +148,15 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+ASGI_APPLICATION = "app.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [(os.environ.get('REDIS_HOST'), 
+                       os.environ.get('REDIS_PORT'))],
+        },
+    },
+}
