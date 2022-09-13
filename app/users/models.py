@@ -9,6 +9,8 @@ class User(AbstractUser):
         max_length=255,
         blank=True
     )
+    ROLE_STATUS = ((0, 'Клиент'), (1, 'Менеджер'), (2, 'Админ'))
+    role = models.PositiveSmallIntegerField(choices=ROLE_STATUS, default=0)
 
 
 class Tag(models.Model):
