@@ -26,7 +26,7 @@ class AuthChatMiddleware:
         scope["user"] = AnonymousUser()
         
         cookies = str(dict(scope['headers']).get(b'cookie', ''))[2:-1]
-        if cookies is '':
+        if cookies == '':
             cookies = '0=0'
         cookies = dict([s.split('=', maxsplit=1) for s in cookies.split('; ')])
 
