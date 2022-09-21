@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<ul id="chat" class="list-group">
+    
+</ul>
+<div class="input-group ">
+    <input id="input-field" type="text" class="form-control">
+    <button type="button" class="btn btn-primary" onclick="send_message();">Send</button>
+</div>
+<script>
+    let socket = new WebSocket(
+        "ws://localhost:8001/chat/1/?sessionid=" + 'w193qwua9lcc1ir6b0a1kpia6ls5j7m3',        
+    );
+
+    function send_message() {
+        message = document.getElementById('input-field').value
+        console.log(message)
+        socket.send(JSON.stringify({'message':message}))
+    }
+
+    socket.onopen = function(e) {};
+
+    socket.onmessage = function(event) {
+        element = document.getElementById('chat')
+        console.log()
+        element.innerHTML += `<li class="list-group-item">${JSON.parse(event.data).message}</li>`
+    };
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            alert(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+        } else {
+            // например, сервер убил процесс или сеть недоступна
+            // обычно в этом случае event.code 1006
+            alert('[close] Соединение прервано');
+        }
+    };
+
+    socket.onerror = function(error) {
+        alert(error);
+    };
+</script>
+{% endblock main %}

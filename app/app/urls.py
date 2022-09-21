@@ -24,6 +24,7 @@ from django.conf import settings
 import users.views as user_view 
 import petstore.views as petstore_view
 import blog.views as blog_view
+import chat.views as chat_views
 
 router = routers.DefaultRouter()
 
@@ -55,6 +56,8 @@ urlpatterns = [
     path('blog/', blog_view.BlogListView.as_view(), name='blog-page'),
     path('article/<slug:slug>', blog_view.ArticleDetailView.as_view(), name='article'),
     
+    # CHAT
+    path('chat', chat_views.chat, name='Chat'),
 ]
 
 urlpatterns += router.urls
