@@ -2,9 +2,13 @@ from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
+from .managers import OnlyManager
+
+
+
 
 class User(AbstractUser):
+    manager_objects = OnlyManager()
     patronymic = models.CharField('Отчество',
         max_length=255,
         blank=True
@@ -54,3 +58,8 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
+        
+
+class UserManager(models.Model):
+    user = ...
+    manger = ...

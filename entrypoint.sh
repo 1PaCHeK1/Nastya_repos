@@ -1,21 +1,24 @@
+
+
 # Установка библиотек
-python install -r requirements.txt
+# python install -r requirements.txt
 
 
 # Миграции
 python app/manage.py makemigrations users
-python app/manage.py migrate users
-
 python app/manage.py makemigrations app
-python app/manage.py migrate app
-
 python app/manage.py makemigrations blog
-python app/manage.py migrate blog
-
 python app/manage.py makemigrations petstore
-python app/manage.py migrate petstore
-
+python app/manage.py makemigrations chat
 python app/manage.py makemigrations
+
+
+# Заливка изменений в бд
+python app/manage.py migrate users
+python app/manage.py migrate app
+python app/manage.py migrate blog
+python app/manage.py migrate petstore
+python app/manage.py migrate chat
 python app/manage.py migrate
 
 
