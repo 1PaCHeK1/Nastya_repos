@@ -9,6 +9,7 @@ from django.db.models.signals import (
 from .models import UserManager, User
 
 
+
 def get_most_free_manager() -> User:
     user_manager = list(UserManager.objects.all().values_list())
     managers_with_user = {}

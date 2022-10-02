@@ -81,3 +81,4 @@ class ReferalUser(models.Model):
     
     class Meta:
         verbose_name = 'Реферальные клиенты'
+
