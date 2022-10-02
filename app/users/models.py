@@ -15,6 +15,7 @@ class User(AbstractUser):
     )
     ROLE_STATUS = ((0, 'Клиент'), (1, 'Менеджер'), (2, 'Админ'))
     role = models.PositiveSmallIntegerField(choices=ROLE_STATUS, default=0)
+    points = models.IntegerField('Баллы', default=0)
 
 
 class Tag(models.Model):
@@ -61,5 +62,23 @@ class Post(models.Model):
         
 
 class UserManager(models.Model):
-    user = ...
-    manger = ...
+    user = models.ForeignKey("User", verbose_name="Клиент", on_delete=models.SET_NULL, null=True, related_name="usermanager_user")
+    manager = models.ForeignKey("User", verbose_name="Менеджер", on_delete=models.SET_NULL, null=True, related_name="usermanager_manager")
+
+    def __str__(self) -> str:
+        return self.user.username + ' - ' + self.manager.username
+    
+    class Meta:
+        verbose_name = 'Клиент - Менеджер'
+
+
+class ReferalUser(models.Model):
+    user_from = models.ForeignKey("User", verbose_name="Пригласивший пользователь", on_delete=models.SET_NULL, null=True, related_name="referaluser_userfrom")
+    user_to = models.OneToOneField("User", verbose_name="приглашенный пользователь", on_delete=models.SET_NULL, null=True, related_name="referaluser_userto")
+
+    def __str__(self) -> str:
+        return self.user_from.username + ' -> ' + self.user_to.username
+    
+    class Meta:
+        verbose_name = 'Реферальные клиенты'
+
