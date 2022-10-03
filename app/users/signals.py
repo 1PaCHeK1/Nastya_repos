@@ -5,25 +5,22 @@ from django.db.models.signals import (
     pre_delete,
     post_delete
 )
-
+from django.db.models import Count
 from .models import UserManager, User
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 
 def get_most_free_manager() -> User:
-    user_manager = list(UserManager.objects.all().values_list())
-    managers_with_user = {}
-    for i in user_manager:
-        if i[2] not in managers_with_user:
-            managers_with_user[i[2]] = 0
-        managers_with_user[i[2]] += 1
-    all_managers = list(User.manager_objects.all_manager().values_list())
-    manager_id = None
-    for i in all_managers:
-        if i[0] not in managers_with_user:
-            return User.manager_objects.all_manager().get(id=i[0])
-    manager_id = sorted(managers_with_user.items(), key=lambda item: item[1])[0][0]
-    return User.manager_objects.all_manager().get(id=manager_id)
+    logger.error("Получили самого свободного пользователя")
+    ums = (UserManager.objects
+          .values('manager')
+          .annotate(amount_user=Count('manager'))
+    )
+    um = max(ums, key=lambda item: item['amount_user'])
+    return User.manager_objects.get(id=um['manager'])
 
 
 @receiver(post_save, sender=User)

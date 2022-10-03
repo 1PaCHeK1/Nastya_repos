@@ -5,8 +5,6 @@ from django.contrib.auth.models import AbstractUser
 from .managers import OnlyManager
 
 
-
-
 class User(AbstractUser):
     manager_objects = OnlyManager()
     patronymic = models.CharField('Отчество',
@@ -16,7 +14,7 @@ class User(AbstractUser):
     ROLE_STATUS = ((0, 'Клиент'), (1, 'Менеджер'), (2, 'Админ'))
     role = models.PositiveSmallIntegerField(choices=ROLE_STATUS, default=0)
     points = models.IntegerField('Баллы', default=0)
-
+    
 
 class Tag(models.Model):
     name = models.CharField('Название',
@@ -81,4 +79,3 @@ class ReferalUser(models.Model):
     
     class Meta:
         verbose_name = 'Реферальные клиенты'
-
