@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -132,7 +132,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
         'file-info': {
@@ -148,13 +148,8 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['file-info', 'console'],
+            'handlers': ['file-error', 'file-info', 'console'],
             'level': 'INFO',
-            'propagate': True,
-        },
-        'django-error': {
-            'handlers': ['file-error', 'console'],
-            'level': 'ERROR',
             'propagate': True,
         },
     },
@@ -163,12 +158,12 @@ LOGGING = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'static/'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
 SUMMERNOTE_THEME = 'bs5'
 
@@ -192,3 +187,11 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = os.environ.get("EMAIL_SENDER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
