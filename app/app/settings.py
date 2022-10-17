@@ -26,6 +26,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    'app',
     'petstore',
     'users',
     'blog',
@@ -149,12 +150,11 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file-error', 'file-info', 'console'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
     },
 }
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -195,3 +195,5 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_SENDER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+SHELL_PLUS_PRINT_SQL = True

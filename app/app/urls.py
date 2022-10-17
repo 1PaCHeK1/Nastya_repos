@@ -32,6 +32,8 @@ router.register('order-json', petstore_view.OrderJSONView, basename='order-json'
 router.register('products-json', petstore_view.ProductsJSONView, basename='products-json')
 router.register('users-json', user_view.UsersJSONView, basename='products-json')
 router.register('comments-json', blog_view.CommentsJSONView, basename='comments-json')
+router.register('get-stat', petstore_view.GetAllProductStat, basename='get-stat')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

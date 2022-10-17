@@ -1,3 +1,4 @@
+from http.client import ResponseNotReady
 from urllib import request
 from django.shortcuts import render
 from django.views import View
@@ -8,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.response import Response
 from rest_framework.mixins import (
     RetrieveModelMixin,
     ListModelMixin,
@@ -107,3 +109,29 @@ class OrderJSONView(RetrieveModelMixin,
             return OrderCreateSerializer
         else:
             return OrderSerializer
+        
+from django.db.models import Q, Sum, Count, Max, Min, Subquery, OuterRef
+
+class GetAllProductStat(ListModelMixin,
+                    GenericViewSet):
+    
+    permission_classes = (AllowAny,)
+    
+    def list(self, request, *args, **kwargs):
+        # orders = (Order.objects
+        #             .filter(Q(status=0)
+        #                     & Q(products__product_id=3)).values("products__product_id", "order_id", "status"))
+        # print(orders)
+        products = (Product.objects
+                    .select_related('type', 'productamounts')
+                    .prefetch_related("buyed", quryset=(Subquery(Order.objects
+                                                        .filter(status=0).values('products__product_id')
+                                                        .filter(products__product_id=OuterRef('id')))
+                                                        )
+                                     )
+                    # .aggregate(total_buyed=Sum("buyed"))
+                    .aggregate(amount=Sum("productamounts__amount"))
+                    .values("name", "price", "type__type", "productamounts__amount")
+                    )
+        
+        return Response(products)
