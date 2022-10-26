@@ -4,6 +4,9 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 from app.utils import header_context
 from .forms import RegistrationForm
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -19,6 +22,19 @@ from .models import (
     User
 )
 from .serializers import UserSerializer
+
+def send_mail_to_user(user: User, title, message):
+    send_mail(title, message, settings.EMAIL_HOST_USER, [user.email])
+
+def send_mail_to_users(title, message, users=None):
+    if not users:
+        users = User.objects.filter(receive_newsletter=0)
+    send_mail(title, message, settings.EMAIL_HOST_USER, [user.email for user in users])
+
+# users = User.objects.all()
+# send_mail_to_users('тайтл', 'какое-то сообщение', users)
+
+
 
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):

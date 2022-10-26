@@ -13,6 +13,8 @@ class User(AbstractUser):
     )
     ROLE_STATUS = ((0, 'Клиент'), (1, 'Менеджер'), (2, 'Админ'))
     role = models.PositiveSmallIntegerField(choices=ROLE_STATUS, default=0)
+    RECEIVE_NEWSLETTERS_STATUS = ((0, 'Получать рассылку'), (1, 'Не получать рассылку'))
+    receive_newsletter = models.PositiveSmallIntegerField(choices=RECEIVE_NEWSLETTERS_STATUS, default=0)
     points = models.IntegerField('Баллы', default=0)
     
 
