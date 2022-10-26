@@ -110,7 +110,7 @@ class OrderJSONView(RetrieveModelMixin,
         else:
             return OrderSerializer
         
-from django.db.models import Q, Sum, Count, Max, Min, Subquery, OuterRef
+from django.db.models import F, Q, Sum, Count, Max, Min, Subquery, OuterRef, Case, When
 
 class GetAllProductStat(ListModelMixin,
                     GenericViewSet):
@@ -123,15 +123,25 @@ class GetAllProductStat(ListModelMixin,
         #                     & Q(products__product_id=3)).values("products__product_id", "order_id", "status"))
         # print(orders)
         products = (Product.objects
-                    .select_related('type', 'productamounts')
-                    .prefetch_related("buyed", quryset=(Subquery(Order.objects
-                                                        .filter(status=0).values('products__product_id')
-                                                        .filter(products__product_id=OuterRef('id')))
-                                                        )
-                                     )
-                    # .aggregate(total_buyed=Sum("buyed"))
-                    .aggregate(amount=Sum("productamounts__amount"))
-                    .values("name", "price", "type__type", "productamounts__amount")
+                    .select_related('type', 'productamounts', 'orders')
+                    .annotate(total_buyed=Sum(Case(
+                        When(order__status=0, then=1), 
+                        default=0
+                    )))
+                    .annotate(amount=Sum("productamounts__amount"))
+                    .values("name", "price", "type__type", "productamounts__amount", "total_buyed")
                     )
-        
         return Response(products)
+
+
+# SELECT "petstore_product"."name", 
+#         "petstore_product"."price", 
+#         "petstore_producttype"."type",
+#         "petstore_productamounts"."amount", 
+#         COUNT("petstore_order"."status") AS "total_buyed" 
+# FROM "petstore_product" 
+# LEFT OUTER JOIN "petstore_order_products" ON ("petstore_product"."id" = "petstore_order_products"."product_id") 
+# LEFT OUTER JOIN "petstore_order" ON ("petstore_order_products"."order_id" = "petstore_order"."id") 
+# LEFT OUTER JOIN "petstore_productamounts" ON ("petstore_product"."id" = "petstore_productamounts"."product_id") 
+# INNER JOIN "petstore_producttype" ON ("petstore_product"."type_id" = "petstore_producttype"."id") 
+# GROUP BY "petstore_product"."id", "petstore_producttype"."type", "petstore_productamounts"."amount";
