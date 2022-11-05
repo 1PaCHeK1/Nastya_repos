@@ -42,6 +42,7 @@ class ArticleDetailView(DetailView):
         context.update({'comments': Comment.objects.filter(article=context['article'])})
         return context
 
+
 class CommentsJSONView(RetrieveModelMixin,
                     ListModelMixin,
                     CreateModelMixin,
@@ -53,6 +54,9 @@ class CommentsJSONView(RetrieveModelMixin,
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticated,)
 
+    
+        
+    
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 

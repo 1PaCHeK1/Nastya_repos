@@ -132,16 +132,3 @@ class GetAllProductStat(ListModelMixin,
                     .values("name", "price", "type__type", "productamounts__amount", "total_buyed")
                     )
         return Response(products)
-
-
-# SELECT "petstore_product"."name", 
-#         "petstore_product"."price", 
-#         "petstore_producttype"."type",
-#         "petstore_productamounts"."amount", 
-#         COUNT("petstore_order"."status") AS "total_buyed" 
-# FROM "petstore_product" 
-# LEFT OUTER JOIN "petstore_order_products" ON ("petstore_product"."id" = "petstore_order_products"."product_id") 
-# LEFT OUTER JOIN "petstore_order" ON ("petstore_order_products"."order_id" = "petstore_order"."id") 
-# LEFT OUTER JOIN "petstore_productamounts" ON ("petstore_product"."id" = "petstore_productamounts"."product_id") 
-# INNER JOIN "petstore_producttype" ON ("petstore_product"."type_id" = "petstore_producttype"."id") 
-# GROUP BY "petstore_product"."id", "petstore_producttype"."type", "petstore_productamounts"."amount";

@@ -1,4 +1,5 @@
 from django.db import models
+
 from django.urls import reverse
 from users.models import User
 # Create your models here.
@@ -78,7 +79,10 @@ class Order(models.Model):
 
     @property
     def total_price(self):
-        return sum([product.price for product in self.products.all()])
+        return self.products.aggregate(total_sum=models.Sum("price"))['total_sum']
+        # products = self.products.values_list("price", flat=True)
+        # [[500], [500]] -> [500, 500]
+        # return sum(products)
 
     def __str__(self):
         return "Корзина " + str(self.user)

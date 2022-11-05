@@ -5,8 +5,7 @@ from django.db.models.signals import (
     pre_delete,
     post_delete
 )
-from Nastya_repos.app.users.views import send_mail_to_users
-from views import send_mail_to_users
+from .views import send_mail_to_users
 from django.db.models import Count
 from .models import UserManager, User
 
@@ -35,7 +34,7 @@ def create_relation_userManager(sender, instance:User, *args, **kwargs):
     if kwargs.get('created', False):
         manager = get_most_free_manager()
         if not manager:
-            admins = User.all_admin()
+            admins = User.manager_objects.all_admin()
             if admins:
                 send_mail_to_users('', 'не найден менеджер', admins)
 

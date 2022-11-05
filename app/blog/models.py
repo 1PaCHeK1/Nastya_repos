@@ -32,6 +32,7 @@ class Article(models.Model):
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
 
+
 class Comment(models.Model):
     creator = models.ForeignKey(User, 
                                 on_delete=models.SET_NULL,
@@ -39,6 +40,12 @@ class Comment(models.Model):
     article = models.ForeignKey(Article,  
                                 on_delete=models.CASCADE,
                                 null=True)
+    parent_comment = models.ForeignKey(
+        "Comment",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     text = models.TextField('Текст комментария')
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
